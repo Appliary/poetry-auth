@@ -1,5 +1,4 @@
 import Poetry from 'poetry';
-import Joi from 'joi';
 
 import {
     Sessions
@@ -15,7 +14,8 @@ Poetry.route( {
             'Disconnect the current user'
         ],
         tags: [ 'Authentication' ]
-    }
+    },
+    auth: true
 
 }, ( request, reply ) => {
 

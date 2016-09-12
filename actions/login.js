@@ -1,11 +1,6 @@
 import Poetry from 'poetry';
 import Joi from 'joi';
-
-import {
-    Users,
-    Sessions,
-    Teams
-} from 'poetry/models';
+import Boom from 'boom';
 
 Poetry.route( {
 
@@ -36,79 +31,18 @@ Poetry.route( {
         return reply( request.session )
             .code( 304 );
 
-    let email = request.payload.email;
+    Poetry.login( request.payload.email, request.payload.password )
+        .then( ( session ) => {
 
-    Users.findOne( {
-            email: email,
-            status: {
-                $in: [ 'active', 'new' ]
-            }
-        } )
-        .then( ( user ) => {
+            request.session.isAuthenticated = session.isAuthenticated;
 
-            if ( !user &&
-                email == 'admin@test.test' &&
-                request.payload.password == 'testtest'
-            ) {
-                user = {
-                    _id: email,
-                    email: email,
-                    role: "admin",
-                    team: "test"
-                };
-                Users.insert( user );
-            }
+            request.session.user = session.user;
+            request.session.team = session.team;
 
-            if ( user ) {
+            request.session.keep = request.payload.keep;
 
-                Poetry.log.verbose( 'Authenticated', user.email );
+            return reply( session );
 
-                // Cleaning user
-                delete user.password;
-
-                request.session = {
-                    _id: request.session._id,
-                    isAuthenticated: true,
-                    keep: request.payload.keep || false,
-                    user: user._id,
-                    team: user.team
-                };
-
-                // Updating session
-                Sessions.update( {
-                    _id: request.session._id
-                }, request.session, {
-                    upsert: true
-                } );
-
-                Teams.find( {
-                        _id: user.team
-                    } )
-                    .then( ( team ) => {
-
-                        request.session.user = user;
-                        request.session.team = team.value;
-
-                        // Reply 200
-                        reply( request.session )
-                            .code( 200 );
-
-                    } )
-                    .catch( Poetry.log.error );
-
-
-            } else {
-
-                reply( {
-                        _id: request.session._id,
-                        isAuthenticated: false,
-                        user: null,
-                        team: null
-                    } )
-                    .code( 401 );
-
-            }
-
-        } );
+        }, err => reply( Boom.unauthorized( 'Wrong authentication.', err ) ) );
 
 } );

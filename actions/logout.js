@@ -25,7 +25,7 @@ Poetry.route( {
             } )
             .code( 304 );
 
-    Sessions.deleteOne( {
+    Sessions.remove( {
             _id: request.session._id
         } )
         .then( () => {

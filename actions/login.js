@@ -26,7 +26,7 @@ Poetry.route( {
 
         cors: {
             credentials: true,
-            origin: '*'
+            origin: ['*']
         }
     }
 

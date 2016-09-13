@@ -22,6 +22,11 @@ Poetry.route( {
                     .required(),
                 keep: Joi.boolean()
             }
+        },
+
+        cors: {
+            credentials: true,
+            origin: '*'
         }
     }
 

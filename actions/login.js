@@ -21,12 +21,13 @@ Poetry.route( {
                 password: Joi.string()
                     .required(),
                 keep: Joi.boolean()
+                    .default( false )
             }
         },
 
         cors: {
             credentials: true,
-            origin: ['*']
+            origin: [ '*' ]
         }
     }
 

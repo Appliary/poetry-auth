@@ -40,6 +40,7 @@ Poetry.route( {
     Poetry.login( request.payload.email, request.payload.password )
         .then( ( session ) => {
 
+            request.session._id = session._id;
             request.session.isAuthenticated = session.isAuthenticated;
 
             request.session.user = session.user;

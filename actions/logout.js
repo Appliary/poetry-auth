@@ -14,16 +14,14 @@ Poetry.route( {
             'Disconnect the current user'
         ],
         tags: [ 'Authentication' ]
-    },
-    auth: true
+    }
 
 }, ( request, reply ) => {
 
     if ( !request.session._id )
         return reply( {
                 isAuthenticated: false
-            } )
-            .code( 304 );
+            } );
 
     Sessions.remove( {
             _id: request.session._id

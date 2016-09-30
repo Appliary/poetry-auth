@@ -34,8 +34,7 @@ Poetry.route( {
 }, ( request, reply ) => {
 
     if ( request.session.isAuthenticated )
-        return reply( request.session )
-            .code( 304 );
+        return reply( request.session );
 
     Poetry.login( request.payload.email, request.payload.password )
         .then( ( session ) => {

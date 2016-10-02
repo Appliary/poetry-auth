@@ -24,9 +24,10 @@ Poetry.route( {
     Sessions.remove( {
             _id: request.session._id
         } )
-        .then( () =>
-            reply.redirect('/')
-        )
+        .then( () => {
+            request.session = {};
+            reply.redirect('/');
+        } )
         .catch( reply );
 
 } );

@@ -19,17 +19,14 @@ Poetry.route( {
 }, ( request, reply ) => {
 
     if ( !request.session._id )
-        return reply( {
-                isAuthenticated: false
-            } );
+        return reply.redirect('/');
 
     Sessions.remove( {
             _id: request.session._id
         } )
-        .then( () => {
-            reply( {
-                isAuthenticated: false
-            } );
-        } );
+        .then( () =>
+            reply.redirect('/')
+        )
+        .catch( reply );
 
 } );

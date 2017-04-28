@@ -36,7 +36,14 @@ Poetry.route( {
     if ( request.session.isAuthenticated )
         return reply( request.session );
 
-    Poetry.login( request.payload.email, request.payload.password )
+    let isMobile = request.headers["User-Agent"] && request.headers["User-Agent"].indexOf("Mobi"); 
+    
+    Poetry.log.silly("User-Agent", request.headers["User-Agent"]);
+    if(isMobile){
+        Poetry.log.silly("Mobile User", isMobile);
+    }
+
+    Poetry.login( request.payload.email, request.payload.password, isMobile )
         .then( ( session ) => {
 
             request.session._id = session._id;

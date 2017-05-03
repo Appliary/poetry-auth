@@ -1,6 +1,6 @@
 {
   "name": "poetry-auth",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Authentication microservice for Poetry",
   "main": "index.js",
   "scripts": {

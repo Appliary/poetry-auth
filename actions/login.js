@@ -36,16 +36,15 @@ Poetry.route( {
     if ( request.session.isAuthenticated )
         return reply( request.session );
 
-    let isMobile = request.headers["User-Agent"] && request.headers["User-Agent"].indexOf("Mobi"); 
+    let checkMobileToken = request.headers["User-Agent"] && request.headers["User-Agent"].indexOf("Mobi") > -1; 
     
     Poetry.log.silly("User-Agent", request.headers["User-Agent"]);
-    if(isMobile){
-        Poetry.log.silly("Mobile User", isMobile);
+    if(checkMobileToken){
+        Poetry.log.silly("Mobile User", checkMobileToken);
     }
-
-    Poetry.login( request.payload.email, request.payload.password, isMobile )
+                    
+    Poetry.login( request.payload.email, request.payload.password, checkMobileToken )
         .then( ( session ) => {
-
             request.session._id = session._id;
             request.session.isAuthenticated = session.isAuthenticated;
 
@@ -56,6 +55,10 @@ Poetry.route( {
 
             return reply( session );
 
-        }, err => reply( Boom.unauthorized( 'Wrong authentication.', err ) ) );
+        }, err => {
+            Poetry.log.silly(err);
+
+            reply( Boom.unauthorized( 'Wrong authentication.', err ) )
+        } );
 
 } );

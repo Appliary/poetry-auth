@@ -47,7 +47,7 @@ Poetry.route( {
             request.payload.email,
             request.payload.password,
             checkMobileToken,
-            request.host()
+            request.headers.host
         )
         .then( session => {
             request.session._id = session._id;

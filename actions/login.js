@@ -36,9 +36,9 @@ Poetry.route( {
     if ( request.session.isAuthenticated )
         return reply( request.session );
 
-    let checkMobileToken = request.headers["User-Agent"] && request.headers["User-Agent"].indexOf("Mobi") > -1; 
+    let checkMobileToken = request.headers["user-agent"] && request.headers["user-agent"].indexOf("Mobi") > -1; 
     
-    Poetry.log.silly("User-Agent", request.headers["User-Agent"]);
+    Poetry.log.silly("User-Agent", request.headers["user-agent"]);
     if(checkMobileToken){
         Poetry.log.silly("Mobile User", checkMobileToken);
     }

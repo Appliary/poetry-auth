@@ -2,6 +2,11 @@ import Poetry from 'poetry';
 import Joi from 'joi';
 import Boom from 'boom';
 
+import {
+    Users,
+    Teams
+} from 'poetry/models';
+
 Poetry.route( {
 
     method: 'POST',
@@ -34,15 +39,10 @@ Poetry.route( {
 }, ( request, reply ) => {
 
     if ( request.session.isAuthenticated ){
-        Poetry.log.silly("Is already authenticated");
-       
+        Poetry.log.silly("Is already authenticated");      
         let session = request.session;
-        session.customProps = {
-            propOne: "custom_1",
-            propTwo: "custom_2"
-        }
-        Poetry.log.silly(session);
-        return reply( session );
+        let clonedSession = { ... session };
+        return reply( clonedSession );
     }
 
     let checkMobileToken = request.headers["user-agent"] && request.headers["user-agent"].indexOf("Mobi") > -1; 

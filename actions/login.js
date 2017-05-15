@@ -35,8 +35,14 @@ Poetry.route( {
 
     if ( request.session.isAuthenticated ){
         Poetry.log.silly("Is already authenticated");
-        Poetry.log.silly(request.session);
-        return reply( request.session );
+       
+        let session = request.session;
+        session.customProps = {
+            propOne: "custom_1",
+            propTwo: "custom_2"
+        }
+        Poetry.log.silly(session);
+        return reply( session );
     }
 
     let checkMobileToken = request.headers["user-agent"] && request.headers["user-agent"].indexOf("Mobi") > -1; 

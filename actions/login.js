@@ -41,7 +41,7 @@ Poetry.route( {
     if ( request.session.isAuthenticated ){
         Poetry.log.silly("Is already authenticated");      
         let session = request.session;
-        let clonedSession = { ... session };
+        let clonedSession = JSON.parse(JSON.stringify(session)); 
         return reply( clonedSession );
     }
 

@@ -33,15 +33,17 @@ Poetry.route( {
 
 }, ( request, reply ) => {
 
-    if ( request.session.isAuthenticated )
+    if ( request.session.isAuthenticated ){
+        Poetry.log.silly("Is already authenticated");
+        Poetry.log.silly(request.session);
         return reply( request.session );
+    }
 
     let checkMobileToken = request.headers["user-agent"] && request.headers["user-agent"].indexOf("Mobi") > -1; 
     
     Poetry.log.silly("User-Agent", request.headers["user-agent"]);
     if(checkMobileToken){
         Poetry.log.silly("Mobile User", checkMobileToken);
-
     }
 
     Poetry.login(
@@ -58,6 +60,8 @@ Poetry.route( {
             request.session.team = session.team;
 
             request.session.keep = request.payload.keep;
+
+            Poetry.log.silly(request.session);
 
             return reply( session );
 

@@ -74,7 +74,13 @@ Poetry.route( {
         }, err => {
             Poetry.log.silly( err );
 
+            if(typeof err === 'string'){
+               return reply( Boom.unauthorized( err ) );
+            }
+
             reply( Boom.unauthorized( 'Wrong authentication.', err ) );
+
+            
         } );
 
 } );

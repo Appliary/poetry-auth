@@ -38,22 +38,22 @@ Poetry.route( {
 
 }, ( request, reply ) => {
 
-    if ( request.session.isAuthenticated ){
-        Poetry.log.silly("Is already authenticated");      
+    if ( request.session.isAuthenticated ) {
+        Poetry.log.silly( "Is already authenticated" );
         let session = request.session;
-        let clonedSession = JSON.parse(JSON.stringify(session)); 
+        let clonedSession = JSON.parse( JSON.stringify( session ) );
         return reply( clonedSession );
     }
 
-    let checkMobileToken = request.headers["user-agent"] && request.headers["user-agent"].indexOf("Mobi") > -1; 
-    
-    Poetry.log.silly("User-Agent", request.headers["user-agent"]);
-    if(checkMobileToken){
-        Poetry.log.silly("Mobile User", checkMobileToken);
+    let checkMobileToken = request.headers[ "user-agent" ] && request.headers[ "user-agent" ].indexOf( "Mobi" ) > -1;
+
+    Poetry.log.silly( "User-Agent", request.headers[ "user-agent" ] );
+    if ( checkMobileToken ) {
+        Poetry.log.silly( "Mobile User", checkMobileToken );
     }
 
     Poetry.login(
-            request.payload.email,
+            request.payload.email.toLowerCase(),
             request.payload.password,
             checkMobileToken,
             request.headers.host
@@ -67,7 +67,7 @@ Poetry.route( {
 
             request.session.keep = request.payload.keep;
 
-            Poetry.log.silly(request.session);
+            Poetry.log.silly( request.session );
 
             return reply( session );
 

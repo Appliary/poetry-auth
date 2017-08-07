@@ -59,6 +59,7 @@ Poetry.route( {
             request.session.team = session.team;
 
             request.session.keep = request.payload.keep;
+            request.session.isWeb = true;
 
             Poetry.log.silly( request.session );
 

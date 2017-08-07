@@ -66,6 +66,9 @@ Poetry.route( {
             request.session.team = session.team;
 
             request.session.keep = request.payload.keep;
+            if(checkMobileToken){
+                request.session.isMobile = true;
+            }
 
             Poetry.log.silly( request.session );
 

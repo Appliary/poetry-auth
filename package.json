@@ -10,7 +10,7 @@
   "dependencies": {
     "babel-cli": "^6.11.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.11.5",
-    "poetry": "0.1.6"
+    "poetry": "0.1.7"
   },
   "babel": {
     "plugins": [
